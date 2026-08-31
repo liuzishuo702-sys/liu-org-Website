@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>这个网站的开发者</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        body {
+            color: #fff;
+            background-color: #000;
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部导航 与learn_more完全统一流体玻璃 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(40, 40, 40, 0.25);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));
+        }
+        .nav-container {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 99px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .nav-links a:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.75);
+            box-shadow:
+                0 0 8px rgba(255, 255, 255, 0.45),
+                0 0 18px rgba(255, 255, 255, 0.25),
+                inset 0 0 6px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+        /* 登录按钮 同款玻璃+描边高光 */
+        .login-btn {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: rgba(255,255,255,0.8);
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 24px rgba(255, 255, 255, 0.3),
+                inset 0 0 8px rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* 横幅区域 */
+        .banner {
+            margin-top: 80px;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .banner-img-box {
+            flex: 0 0 42%;
+        }
+        .banner-img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255);
+        }
+        .banner-text-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+        .banner-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            white-space: normal;
+        }
+        .banner-desc {
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+        .explore-btn {
+            align-self: flex-start;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffffff;
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(22px) saturate(170%);
+            -webkit-backdrop-filter: blur(22px) saturate(170%);
+            border: 1px solid rgba(255,255,255);
+            border-radius: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255);
+        }
+        .explore-btn:hover {
+            background: rgba(40,40,40,0.35);
+            border-color: rgba(255,255,255);
+            box-shadow: 0 0 20px rgba(255,255,255), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255);
+            transform: scale(1.05);
+        }
+
+        /* 开发者卡片 */
+        .card-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .info-card {
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(22px) saturate(170%);
+            -webkit-backdrop-filter: blur(22px) saturate(170%);
+            border: 1px solid rgba(255,255,255);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            transition: transform 0.3s ease, background 0.3s;
+        }
+        .info-card:hover {
+            transform: translateY(-8px);
+            background: rgba(40, 40, 40, 0.35);
+            border-color: rgba(255,255,255);
+            box-shadow: 0 0 20px rgba(255,255,255), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255);
+        }
+        .card-img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 16px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,225);
+        }
+        .card-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .card-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #ccc;
+        }
+
+        /* 页脚 统一learn_more */
+        footer {
+            background: rgba(15,15,15,0.4);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(255,255,255);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+        footer p {
+            color: #999;
+            line-height: 1.8;
+        }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .nav-links { gap: 15px; font-size: 0.85rem; }
+            .banner { flex-direction: column; text-align: center; }
+            .banner-img-box { width: 70%; }
+            .banner-title { font-size: 2.2rem; }
+            .banner-desc { margin: 0 auto; }
+            .explore-btn { align-self: center; padding: 12px 28px; font-size: 1rem; }
+            .info-card { flex-direction: column; text-align: center; }
+            .card-img { width: 200px; height: 200px; }
+        }
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; }
+            .nav-container { order: 3; width: 100%; margin-top: 10px; }
+            .nav-links { gap: 10px; }
+            .nav-links a { padding:4px 10px; font-size:0.78rem; }
+            .login-btn { padding:4px 12px; font-size:0.78rem; }
+            footer p { font-size: 0.9rem; }
+            .banner-title { font-size: 1.6rem; }
+            .explore-btn { padding: 10px 24px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <img src="../logo.png" alt="ISC Logo" class="logo-img">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="../index.html">首页</a></li>
+                </ul>
+            </div>
+            <a href="login.html" class="login-btn">登录</a>
+        </div>
+    </header>
+
+    <section class="banner">
+        <div class="banner-img-box">
+            <img src="../logo.png" alt="展示图" class="banner-img">
+        </div>
+        <div class="banner-text-box">
+            <div class="banner-title">这个网站的开发者</div>
+            <p class="banner-desc">
+                我们虽然还小，虽然还在上学，但我们相信：<br>
+                我们的爱好是正确的，我们也能干出一番大事业来，<br>
+                只要心中有梦，万事可期！
+            </p>
+            <a href="../page/video.html" class="explore-btn">探索我们的社交媒体</a>
+        </div>
+    </section>
+
+    <section class="card-section">
+        <div class="info-card">
+            <img src="../image/NEstOrg.jpg" alt="NEstOrg" class="card-img">
+            <div class="card-text-wrap">
+                <div class="card-title">@NEstOrg|大东北杂交柑橘</div>
+                <div class="card-desc">唯一QQ号：3767878328，邮箱：Liusicheng20120802@outlook.com</div>
+            </div>
+        </div>
+        <div class="info-card">
+            <img src="../image/zishuo.jpg" alt="zishuo" class="card-img">
+            <div class="card-text-wrap">
+                <div class="card-title">@子硕</div>
+                <div class="card-desc">唯一QQ号：1317195485，邮箱：1317195485@qq.com</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>如果对此网站有任何问题，请在法定节假日期间的早7:00至晚8:00期间向“+86 189 4619 8253”致电或向“Liusicheng20120802@outlook.com”发邮件。商标未注册，麻烦各位不要抢注，谢谢。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

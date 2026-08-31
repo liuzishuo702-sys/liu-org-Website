@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>了解网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        body {
+            color: #fff;
+            background-color: #000;
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部导航 方案1流体玻璃，按钮描边+悬浮高光 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(40, 40, 40, 0.25);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));
+        }
+        .nav-container {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 99px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .nav-links a:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.75);
+            box-shadow:
+                0 0 8px rgba(255, 255, 255, 0.45),
+                0 0 18px rgba(255, 255, 255, 0.25),
+                inset 0 0 6px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+        /* 登录按钮 流体玻璃+描边高光 */
+        .login-btn {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: rgba(255,255,255,0.8);
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 24px rgba(255, 255, 255, 0.3),
+                inset 0 0 8px rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* 主体左右布局容器 */
+        .main-wrap {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 120px;
+            gap: 40px;
+            min-height: calc(100vh - 140px);
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 60px;
+        }
+        /* 左侧侧边导航 流体玻璃 */
+        .side-nav {
+            flex: 0 0 260px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(22px) saturate(170%);
+            -webkit-backdrop-filter: blur(22px) saturate(170%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px 20px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .side-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .side-nav a {
+            display: block;
+            padding: 12px 16px;
+            color: #ccc;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .side-nav a:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 0 12px rgba(255,255,255,0.2);
+            transform: translateX(4px);
+        }
+        /* 右侧卡片区域 */
+        .card-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        /* 内容卡片 流体玻璃样式 */
+        .content-card {
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(22px) saturate(170%);
+            -webkit-backdrop-filter: blur(22px) saturate(170%);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+            transition: transform 0.3s ease, background 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-8px);
+            background: rgba(40, 40, 40, 0.35);
+            border-color: rgba(255,255,255,0.18);
+            box-shadow:
+                0 0 20px rgba(255,255,255,0.12),
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .card-head {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 18px;
+        }
+        .card-text {
+            color: #ccc;
+            font-weight: 300;
+            line-height: 1.8;
+            min-height: 120px;
+        }
+        /* 页脚流体玻璃 */
+        footer {
+            background: rgba(15,15,15,0.4);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 0;
+            text-align: center;
+        }
+        footer p {
+            color: #999;
+            line-height: 1.8;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 992px) {
+            .main-wrap {
+                flex-direction: column;
+            }
+            .side-nav {
+                flex: none;
+                width: 100%;
+                position: static;
+                top: unset;
+            }
+            .nav-links { gap: 15px; font-size: 0.85rem; }
+        }
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; }
+            .nav-container { order: 3; width: 100%; margin-top: 10px; }
+            .nav-links { gap: 10px; }
+            .nav-links a { padding:4px 10px; font-size:0.78rem; }
+            .login-btn { padding:4px 12px; font-size:0.78rem; }
+            footer p { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 流体玻璃 -->
+    <header>
+        <div class="container navbar">
+            <img src="../logo.png" alt="ISC Logo" class="logo-img">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="../index.html">首页</a></li>
+                </ul>
+            </div>
+            <a href="login.html" class="login-btn">登录</a>
+        </div>
+    </header>
+    <!-- 主体：左侧侧边导航 + 右侧卡片 -->
+    <div class="main-wrap">
+        <nav class="side-nav">
+            <ul>
+                <li><a href="#card1">1：我们的开发方法</a></li>
+                <li><a href="#card2">2：网站的用途</a></li>
+                <li><a href="#card3">3：我们的理念</a></li>
+                <li><a href="#card4">4：加入我们的条件</a></li>
+            </ul>
+        </nav>
+        <div class="card-area">
+            <div class="content-card" id="card1">
+                <h3 class="card-head">我们的开发方法</h3>
+                <div class="card-text">
+                    这个网站是我们用自己的基础编程知识以及对java语言的了解配合字节跳动旗下“豆包”进行开发，
+                    服务器为Microsoft®windows11™平台，我们目前使用了HTML5，CSS，Windows IIS。后续我们
+                    会完善登录功能，将静态网站改为动态网站，加入PHP，Javascript，C#，python等语言进行网
+                    站功能的完善以及衔接动画的优化，也会升级我们的服务器硬件来获得更流畅的使用体验我们也会
+                    慢慢的将我们的网站对外开放，整理更多的资源，不断优化、完善我们的漏洞，拒绝“翔”山代码，
+                    不断更新系统内核，做好系统安全性，致力打造一个“开放、自由、免费”的测试平台！
+                </div>
+            </div>
+            <div class="content-card" id="card2">
+                <h3 class="card-head">网站的用途</h3>
+                <div class="card-text">
+                    我们花大量的心血来开发这个网站是为了拥有一个域名，拥有一个可以自己随意支配的测试环境，
+                    我们的资源整理类别是：<br>
+                    1.刷机工具及收集的免费刷机包（xiaomi 10 ultra xiaomi 11 ultra xiomi 6 xiaomi 17 ultra xiaomi Civi 1s iqoo Z8 oneplus 13 xiaomi pad 7）<br>
+                    2.开发软件：python，Java，JavaScript，CSS，C#，C++，HTML5<br>
+                    3.探索硬件：拆焊，维修，DIY，魔改，超频，修复，拆解.
+                </div>
+            </div>
+            <div class="content-card" id="card3">
+                <h3 class="card-head">我们的理念</h3>
+                <div class="card-text">
+                    我们开发此网站的理念：<br>
+                    1.用于测试<br>
+                    2.拥有自己的域名<br>
+                    3.致力开发一个良好的测试环境<br>
+                    4.……
+                </div>
+            </div>
+            <div class="content-card" id="card4">
+                <h3 class="card-head">加入我们的条件</h3>
+                <div class="card-text">
+                    有编程基础，年龄12以上，为无偿加入，加入方法请在“了解此网站的开发者”页面中查看。
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 统一页脚 -->
+    <footer>
+        <div class="container">
+            <p>如果对此网站有任何问题，请在法定节假日期间的早7:00至晚8:00期间向“+86 189 4619 8253”致电或向“Liusicheng20120802@outlook.com”发邮件。商标未注册，麻烦各位不要抢注，谢谢。</p>
+        </div>
+    </footer>
+    <!-- 平滑滚动JS -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Minecraft</title>
+    <style>
+        /* 全局重置与基础样式 - 主题色改为黑色系 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        body {
+            color: #fff; /* 文字改为白色 */
+            background-color: #000; /* 背景改为纯黑 */
+            line-height: 1.6;
+        }
+        /* 容器样式 - 控制页面宽度和居中 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* 导航栏 - 重新设计：左侧logo、中间菜单、右侧登录按钮 */
+        header {
+            background-color: #292929; /* 导航栏背景黑 */
+            box-shadow: 0 2px 4px rgba(255,255,255,0.1); /* 浅色阴影更适配黑色 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            gap: 20px;
+        }
+        /* Logo图片样式 - 支持缩放 */
+        .logo-img {
+            height: 40px; /* 基础高度 */
+            width: auto;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* 缩放过渡动画 */
+        }
+        .logo-img:hover {
+            transform: scale(1.05); /* 鼠标悬浮轻微放大 */
+        }
+        /* 导航菜单容器 - 居中显示 */
+        .nav-container {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px; /* 菜单间距适配长文本 */
+            flex-wrap: wrap; /* 适配小屏幕 */
+            justify-content: center;
+        }
+        .nav-links a {
+            color: #ddd; /* 菜单文字浅白 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover {
+            color: #fff; /* 悬浮变白 */
+        }
+        /* 登录按钮（改为链接样式，保留原按钮视觉效果） */
+        .login-btn {
+            padding: 8px 18px;
+            background-color: #fff; /* 白底 */
+            color: #000; /* 黑字 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap; /* 防止文字换行 */
+            text-decoration: none; /* 去除链接下划线 */
+            display: inline-block; /* 适配padding和border-radius */
+            font-size: 0.95rem; /* 与导航文字字号统一 */
+        }
+        .login-btn:hover {
+            background-color: #eee; /* 悬浮浅灰 */
+            color: #000;
+            text-decoration: none; /* 悬浮仍无下划线 */
+        }
+        /* 轮播容器 - 适配浏览器窗口（替代原英雄区） */
+        .carousel-container {
+            position: relative;
+            width: 100vw;   /* 占满视口宽度 */
+            height: 100vh;  /* 占满视口高度 */
+            overflow: hidden; /* 隐藏超出容器的内容 */
+            padding-top: 80px; /* 给固定导航栏留空间 */
+        }
+        /* 图片滚动容器 */
+        .carousel-wrapper {
+            display:            flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease; /* 平滑滚动切换动画 */
+        }
+        /* 轮播图片项 - 自适应容器 */
+        .carousel-item {
+            flex: 0 0 100%; /* 每个图片占满容器宽度 */
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持图片比例，铺满容器（裁剪超出部分） */
+            /* 如果不想裁剪，可用 object-fit: contain; 但会留空白 */
+        }
+        /* 切换按钮样式 */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+        .carousel-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev-btn {
+            left: 20px;
+        }
+        .next-btn {
+            right: 20px;
+        }
+
+        /* 新增：轮播标题文字 欢迎来到我们的网站 */
+        .carousel-title {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            white-space: nowrap;
+        }
+
+        /* 新增：轮播中间的开始探索按钮 */
+        .explore-btn {
+            position: absolute;
+            left: 50%;
+            top: 65%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffffff;
+            background-color: rgba(120, 120, 120, 0.6);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .explore-btn:hover {
+            background-color: rgba(150, 150, 150, 0.8);
+            border-color: rgba(255,255,255,0.6);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        /* 内容区块 - 适配黑色主题 */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background-color: #111; /* 卡片深灰背景 */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .card p {
+            color: #ccc;
+        }
+        /* 卡片链接样式（保持与原风格统一，去除下划线） */
+        .card a {
+            text-decoration: none;
+            color: inherit; /* 继承卡片内文字颜色，保持视觉统一 */
+            display: block; /* 整卡可点击（可选，若需仅标题点击可删除此句） */
+        }
+        /* 了解更多按钮样式 */
+        .more-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 24px;
+            background-color: #fff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .more-btn:hover {
+            background-color: #eee;
+        }
+        /* 社交媒体图标容器样式（新增） */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .social-icons img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+        /* 页脚 - 适配黑色主题 */
+        footer {
+            background-color: #111;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 80px;
+        }
+        footer p {
+            color: #999;
+            line-height: 1.8; /* 增加行高，提升长文本可读性 */
+        }
+        /* 响应式适配 - 手机端优化 */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 15px;
+                font-size: 0.85rem;
+            }
+            .social-icons img {
+                width: 60px;
+                height: 60px;
+            }
+            .explore-btn {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+            .carousel-title {
+                font-size: 2.2rem;
+                top: 54%;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                order: 3;
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            /* 轮播按钮适配小屏幕 */
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            /* 页脚文本适配小屏幕，换行更友好 */
+            footer p {
+                font-size: 0.9rem;
+            }
+            .social-icons {
+                gap: 25px;
+            }
+            .social-icons img {
+                width: 50px;
+                height: 50px;
+            }
+            .explore-btn {
+                padding: 10px 24px;
+                font-size: 0.95rem;
+                top: 70%;
+            }
+            .carousel-title {
+                font-size: 1.6rem;
+                top: 58%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 - 登录按钮改为跳转至login.html的链接 -->
+    <header>
+        <div class="container navbar">
+            <!-- 左侧Logo图片 -->
+            <img src="../image/minecraft_logo.svg" alt="minecraft_logo" class="logo-img">
+            <!-- 中间导航菜单 -->
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#how-login">如何加入服务器</a></li>
+                    <li><a href="#public-mod">公共模组</a></l>
+                </ul>
+            </div>
+            <!-- 右侧登录按钮：改为<a>标签，跳转至login.html，保留原按钮样式 -->
+            <a href="page/login.html" class="login-btn">登录</a>
+        </div>
+    </header>
+    <!-- 首页轮播区域（替代原英雄区） -->
+    <section id="home" class="carousel-container">
+        <!-- 图片滚动外层 -->
+        <div class="carousel-wrapper" id="carouselWrapper">
+            <!-- 轮播图片项 -->
+            <div class="carousel-item">
+                <img src="https://picsum.photos/1920/1080?random=1" alt="轮播图1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://picsum.photos/1920/1080?random=2" alt="轮播图2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://picsum.photos/1920/1080?random=3" alt="轮播图3">
+            </div>
+            <div class="carousel-item">
+                <img src="https://picsum.photos/1920/1080?random=4" alt="轮播图4">
+            </div>
+        </div>
+        <!-- 切换按钮 -->
+        <button class="carousel-btn prev-btn" id="prevBtn">←</button>
+        <button class="carousel-btn next-btn" id="nextBtn">→</button>
+
+        <!-- 新增标题文字：开始探索按钮上方 -->
+        <div class="carousel-title">加入Orange Minecraft</div>
+        <!-- 轮播上的开始探索按钮 -->
+        <a href="#how-develop" class="explore-btn">开始探索</a>
+    </section>
+    <!-- 第一栏：这个网站是怎么开发的？ -->
+    <section id="how-develop" class="section">
+        <div class="container">
+            <h2 class="section-title">这个网站是干什么的？</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto; color: #ccc; font-size: 1.1rem;">
+                本网站为测试用途，不对外开放，如想加入我们，请点击了解更多
+            </p>
+            <!-- 了解更多按钮 - 跳转至同目录下的page.html -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="page/learn_more.html" class="more-btn">了解更多</a>
+            </div>
+        </div>
+    </section>
+    <!-- 公共资源区块 - 为卡片添加对应跳转链接 -->
+    <section id="public-resources" class="section">
+        <div class="container">
+            <h2 class="section-title">我们收集整理的资源</h2>
+            <div class="cards">
+                <div class="card">
+                    <a href="page/project_sort.html">
+                        <h3>资源分类</h3>
+                        <p>这里是我们整理的资源的分类，如："cas"资源，twrp资源，java模组资源等……</p>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="123pan.com">
+                        <h3>资源下载</h3>
+                        <p>按下此按钮将跳转到我们的123云盘网站</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="minecraft" class="section">
+        <div class="container">
+            <h2 class="section-title">我们的minecraft服务器</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto; color: #ccc; font-size: 1.1rem;">
+                属于我们自己的Java版minecraft服务器，如想加入，请联系我们
+            </p>
+            <!-- 了解更多按钮 - 跳转至同目录下的page.html -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="page/minecraft.html" class="more-btn">加入我们</a>
+            </div>
+        </div>
+    </section>
+    <!-- 此网站的视频 - 添加三张并排社交图标 -->
+    <section id="video" class="section">
+        <div class="container">
+            <h2 class="section-title">我们的社交媒体</h2>
+            <!-- 新增三张等大并排图片 -->
+            <div class="social-icons">
+                <img src="image/logo_douyin.png" alt="抖音">
+                <img src="image/logo_wechat.png" alt="微信">
+                <img src="image/logo_bilibili.png" alt="哔哩哔哩">
+            </div>
+            <!-- 新增：了解更多按钮，跳转至video_isc_search.html -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="page/video.html" class="more-btn">了解更多</a>
+            </div>
+        </div>
+    </section>
+    <!-- 页脚 - 替换原有版权文字为指定内容 -->
+    <footer>
+        <div class="container">
+            <p>如果对此网站有任何问题，请在法定节假日期间的早7:00至晚8:00期间向“+86 189 4619 8253”致电或向“Liusicheng20120802@outlook.com”发邮件。商标未注册，麻烦各位不要抢注，谢谢。</p>
+        </div>
+    </footer>
+    <!-- 整合后的JS交互 -->
+    <script>
+        // 1. 平滑滚动（点击导航链接时）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                // 兼容锚点链接（对应区块存在则滚动到区块，否则不处理）
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        // 3. 轮播功能逻辑
+        // 获取DOM元素
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        // 获取轮播项数量
+        const itemCount = document.querySelectorAll('.carousel-item').length;
+        // 当前显示的图片索引
+        let currentIndex = 0;
+        // 自动轮播计时器
+        let autoPlayTimer;
+        // 切换图片的核心函数
+        function switchImage(index) {
+            // 计算偏移量（向左切换 = 负的宽度百分比）
+            const translateValue = -index * 100 + '%';
+            carouselWrapper.style.transform = `translateX(${translateValue})`;
+            currentIndex = index;
+        }
+        // 下一张图片（向左切换）
+        function goToNext() {
+            // 最后一张切换回第一张
+            currentIndex = (currentIndex + 1) % itemCount;
+            switchImage(currentIndex);
+        }
+        // 上一张图片（向右切换）
+        function goToPrev() {
+            // 第一张切换回最后一张
+            currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+            switchImage(currentIndex);
+        }
+        // 启动自动轮播
+        function startAutoPlay() {
+            // 每隔3秒切换下一张
+            autoPlayTimer = setInterval(goToNext, 3000);
+        }
+        // 停止自动轮播
+        function stopAutoPlay() {
+            clearInterval(autoPlayTimer);
+        }
+        // 绑定轮播按钮点击事件
+        prevBtn.addEventListener('click', () => {
+            stopAutoPlay(); // 点击时停止自动轮播
+            goToPrev();
+            startAutoPlay(); // 重置自动轮播
+        });
+        nextBtn.addEventListener('click', () => {
+            stopAutoPlay();
+            goToNext();
+            startAutoPlay();
+        });
+        // 初始化启动自动轮播
+        startAutoPlay();
+        // 窗口大小变化时，确保轮播位置正确（可选优化）
+        window.addEventListener('resize', () => {
+            switchImage(currentIndex);
+        });
+    </script>
+</body>
+</html>
