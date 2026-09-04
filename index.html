@@ -88,6 +88,7 @@
             text-shadow: 0 0 10px rgba(255,255,255);
             transform: translateY(-2px);
         }
+        .mobile-menu-btn, .mobile-bottom-nav { display: none; }
         /* 登录按钮 同款玻璃+描边高光 */
         .login-btn {
             padding: 8px 18px;
@@ -314,18 +315,34 @@
             .carousel-title { font-size: 2.2rem; top: 54%; }
         }
         @media (max-width: 768px) {
-            .navbar { flex-wrap: wrap; }
-            .nav-container { order: 3; width: 100%; margin-top: 10px; }
-            .nav-links { gap: 10px; }
-            .nav-links a { padding:4px 10px; font-size:0.78rem; }
-            .login-btn { padding:4px 12px; font-size:0.78rem; }
+            body { padding-top: 58px; padding-bottom: 64px; background: #080912; }
+            header { background: rgba(8, 9, 18, 0.88); border-bottom-color: rgba(255,255,255,.1); }
+            .container { padding: 0 16px; }
+            .navbar { height: 58px; padding: 8px 0; flex-wrap: nowrap; gap: 12px; }
+            .logo-img { height: 32px; max-width: 120px; }
+            .nav-container { display: none; }
+            .login-btn { margin-left: auto; padding: 6px 13px; font-size: 0.8rem; }
+            .mobile-menu-btn { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.35); border-radius: 10px; font-size: 1.25rem; cursor: pointer; }
+            header.menu-open .nav-container { display: block; position: absolute; top: 58px; left: 0; right: 0; padding: 10px 16px 14px; background: rgba(8,9,18,.96); border-bottom: 1px solid rgba(255,255,255,.12); }
+            header.menu-open .nav-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+            header.menu-open .nav-links a { display: block; padding: 9px 10px; font-size: .82rem; text-align: center; }
             .cards { grid-template-columns: 1fr; }
-            .carousel-btn { width: 40px; height: 40px; font-size: 16px; }
+            .carousel-container { height: calc(100svh - 58px); min-height: 520px; padding-top: 0; }
+            .carousel-item img { object-position: center; }
+            .carousel-btn { width: 38px; height: 38px; font-size: 15px; background: rgba(0,0,0,.28); }
+            .prev-btn { left: 12px; } .next-btn { right: 12px; }
             footer p { font-size: 0.9rem; }
             .social-icons { gap: 25px; }
             .social-icons img { width: 50px; height: 50px; }
-            .explore-btn { padding: 10px 24px; font-size: 0.95rem; top: 70%; }
-            .carousel-title { font-size: 1.6rem; top: 58%; }
+            .explore-btn { padding: 10px 24px; font-size: .9rem; top: 72%; border-radius: 999px; }
+            .carousel-title { width: 90%; text-align: center; font-size: clamp(1.5rem, 7vw, 2.2rem); top: 53%; white-space: normal; line-height: 1.25; }
+            .section { padding: 54px 0; }
+            .section-title { font-size: 1.45rem; margin-bottom: 24px; }
+            .card { padding: 22px; border-radius: 12px; }
+            .mobile-bottom-nav { position: fixed; z-index: 120; display: flex; left: 0; right: 0; bottom: 0; height: 64px; padding: 7px 8px calc(7px + env(safe-area-inset-bottom)); background: rgba(16,17,28,.94); backdrop-filter: blur(18px); border-top: 1px solid rgba(255,255,255,.14); justify-content: space-around; }
+            .mobile-bottom-nav a { flex: 1; color: #aeb2c2; text-decoration: none; font-size: .68rem; text-align: center; display: flex; flex-direction: column; gap: 2px; align-items: center; justify-content: center; }
+            .mobile-bottom-nav a span { font-size: 1.15rem; line-height: 1; }
+            .mobile-bottom-nav a.active, .mobile-bottom-nav a:hover { color: #fff; }
         }
     </style>
 </head>
@@ -333,6 +350,7 @@
     <header>
         <div class="container navbar">
             <img src="logo.png" alt="ISC Logo" class="logo-img">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">&#9776;</button>
             <div class="nav-container">
                 <ul class="nav-links">
                     <li><a href="#home">首页</a></li>
@@ -346,6 +364,13 @@
             <a href="page/login.html" class="login-btn">登录</a>
         </div>
     </header>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+        <a href="#home" class="active"><span>⌂</span>首页</a>
+        <a href="#public-resources"><span>▦</span>资源</a>
+        <a href="#minecraft"><span>◈</span>服务器</a>
+        <a href="#video"><span>◎</span>社交</a>
+    </nav>
 
     <section id="home" class="carousel-container">
         <div class="carousel-wrapper" id="carouselWrapper">
@@ -438,6 +463,16 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const itemCount = document.querySelectorAll('.carousel-item').length;
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        mobileMenuBtn?.addEventListener('click', () => {
+            document.querySelector('header').classList.toggle('menu-open');
+        });
+        document.querySelectorAll('.mobile-bottom-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.mobile-bottom-nav a').forEach(item => item.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
         let currentIndex = 0;
         let autoPlayTimer;
         function switchImage(index) {
