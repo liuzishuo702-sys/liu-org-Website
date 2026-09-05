@@ -333,6 +333,11 @@
                 top: 58%;
             }
         }
+        /* 首页统一导航覆盖 */
+        header { background:rgba(40,40,40,.25); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); border-bottom:1px solid rgba(255,255,255,.12); }
+        .mobile-menu-btn { display:none; }
+        .nav-links a { padding:6px 14px; border:1px solid rgba(255,255,255,.75); border-radius:99px; }
+        @media(max-width:768px){ body{padding-top:58px;padding-bottom:64px;} header .navbar{position:relative;height:58px;flex-wrap:nowrap;} header .logo-img{position:absolute;left:50%;transform:translateX(-50%);height:32px;} header .nav-container{display:none;} header.menu-open .nav-container{display:block;position:absolute;top:58px;left:0;right:0;padding:10px 16px;background:rgba(8,9,18,.96);} header.menu-open .nav-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;} .mobile-menu-btn{display:inline-flex;position:absolute;left:16px;} .login-btn{margin-left:auto;} }
     </style>
 </head>
 <body>
@@ -340,7 +345,7 @@
     <header>
         <div class="container navbar">
             <!-- 左侧Logo图片 -->
-            <img src="../image/minecraft_logo.svg" alt="minecraft_logo" class="logo-img">
+            <a href="../index.html"><img src="../logo.png" alt="ISC Logo" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             <!-- 中间导航菜单 -->
             <div class="nav-container">
                 <ul class="nav-links">
@@ -449,6 +454,9 @@
     </footer>
     <!-- 整合后的JS交互 -->
     <script>
+        document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.querySelector('header').classList.toggle('menu-open'));
+        const navItems=[['../index.html','首页'],['../index.html#how-develop','网站开发'],['../index.html#public-resources','公共资源'],['introduce_developer.html','了解此网站的开发者'],['../index.html#minecraft','minecraft服务器'],['../index.html#video','我们的社交媒体']];
+        const navList=document.querySelector('.nav-links'); if(navList) navList.innerHTML=navItems.map(([h,t])=>`<li><a href="${h}">${t}</a></li>`).join('');
         // 1. 平滑滚动（点击导航链接时）
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

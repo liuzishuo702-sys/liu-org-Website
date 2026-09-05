@@ -16,6 +16,27 @@
             background-color: #000;
             line-height: 1.6;
             padding-top: 80px;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed; /* fixed 全屏背景，滚动不移动 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 填入你的图片地址，可以本地路径或者网络url */
+            background-image: url("../image/background.jpg");
+            background-size: cover;      /* 图片铺满屏幕 */
+            background-position: center; /* 图片居中 */
+            background-repeat: no-repeat;   
+            /* 模糊数值，单位px，越大越模糊，例如8px */
+            filter: blur(8px);
+            /* 轻微缩放，消除模糊边缘白边 */
+            transform: scale(1.1);
+            z-index: -1; /* 放到最底层，不会盖住页面文字按钮 */
         }
         .container {
             max-width: 1200px;
@@ -268,12 +289,26 @@
             .banner-title { font-size: 1.6rem; }
             .explore-btn { padding: 10px 24px; font-size: 0.95rem; }
         }
+        /* 首页统一视觉与移动端导航 */
+        .nav-links a,.login-btn,.explore-btn { border:1px solid rgba(255,255,255,.75); border-radius:99px; }
+        .mobile-menu-btn { display:none; }
+        @media (max-width:768px) {
+            body { padding-top:58px; padding-bottom:64px; }
+            header .navbar { position:relative; height:58px; flex-wrap:nowrap; }
+            header .logo-img { position:absolute; left:50%; transform:translateX(-50%); height:32px; }
+            header .nav-container { display:none; }
+            header.menu-open .nav-container { display:block; position:absolute; top:58px; left:0; right:0; padding:10px 16px 14px; background:rgba(8,9,18,.96); }
+            header.menu-open .nav-links { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+            header.menu-open .nav-links a { display:block; padding:9px 10px; font-size:.82rem; text-align:center; }
+            .mobile-menu-btn { display:inline-flex; position:absolute; left:16px; }
+            .login-btn { margin-left:auto; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container navbar">
-            <img src="../logo.png" alt="ISC Logo" class="logo-img">
+            <a href="../index.html"><img src="../logo.png" alt="ISC Logo" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             <div class="nav-container">
                 <ul class="nav-links">
                     <li><a href="../index.html">首页</a></li>
@@ -322,6 +357,10 @@
     </footer>
 
     <script>
+        document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.querySelector('header').classList.toggle('menu-open'));
+        const navItems=[['../index.html','首页'],['../index.html#how-develop','网站开发'],['../index.html#public-resources','公共资源'],['introduce_developer.html','了解此网站的开发者'],['../index.html#minecraft','minecraft服务器'],['../index.html#video','我们的社交媒体']];
+        const navList=document.querySelector('.nav-links'); if(navList) navList.innerHTML=navItems.map(([h,t])=>`<li><a href="${h}">${t}</a></li>`).join('');
+        document.querySelector('.logo-img')?.closest('a')?.addEventListener('click',()=>location.href='../index.html');
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
