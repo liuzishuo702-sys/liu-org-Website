@@ -42,7 +42,7 @@
         }
         /* Logo图片样式 - 支持缩放 */
         .logo-img {
-            height: 40px; /* 基础高度 */
+            height: 42px; /* 基础高度 */
             width: auto;
             object-fit: contain;
             cursor: pointer;
@@ -65,23 +65,25 @@
             justify-content: center;
         }
         .nav-links a {
-            color: #ddd; /* 菜单文字浅白 */
+            color: #f1f1f1; /* 菜单文字浅白 */
             text-decoration: none;
             transition: color 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
         }
         .nav-links a:hover {
             color: #fff; /* 悬浮变白 */
         }
         /* 登录按钮（改为链接样式，保留原按钮视觉效果） */
         .login-btn {
-            padding: 8px 18px;
-            background-color: #fff; /* 白底 */
-            color: #000; /* 黑字 */
-            border: none;
-            border-radius: 4px;
+            padding: 9px 18px;
+            background-color: #4caf28;
+            color: #fff;
+            border: 1px solid #7bd455;
+            border-radius: 0;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 800;
             transition: background-color 0.3s ease, color 0.3s ease;
             white-space: nowrap; /* 防止文字换行 */
             text-decoration: none; /* 去除链接下划线 */
@@ -89,8 +91,8 @@
             font-size: 0.95rem; /* 与导航文字字号统一 */
         }
         .login-btn:hover {
-            background-color: #eee; /* 悬浮浅灰 */
-            color: #000;
+            background-color: #63c638;
+            color: #fff;
             text-decoration: none; /* 悬浮仍无下划线 */
         }
         /* 轮播容器 - 适配浏览器窗口（替代原英雄区） */
@@ -347,9 +349,9 @@
             }
         }
         /* 首页统一导航覆盖 */
-        header { background:rgba(40,40,40,.25); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); border-bottom:1px solid rgba(255,255,255,.12); }
+        header { background:#211f1e; backdrop-filter:none; border-bottom:1px solid rgba(255,255,255,.08); }
         .mobile-menu-btn { display:none; }
-        .nav-links a { padding:6px 14px; border:1px solid rgba(255,255,255,.75); border-radius:99px; }
+        .nav-links a { padding:8px 12px; border:0; border-radius:0; }
         @media(max-width:768px){ body{padding-top:58px;padding-bottom:64px;} header .navbar{position:relative;height:58px;flex-wrap:nowrap;} header .logo-img{position:absolute;left:50%;transform:translateX(-50%);height:32px;} header .nav-container{display:none;} header.menu-open .nav-container{display:block;position:absolute;top:58px;left:0;right:0;padding:10px 16px;background:rgba(8,9,18,.96);} header.menu-open .nav-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;} .mobile-menu-btn{display:inline-flex;position:absolute;left:16px;} .login-btn{margin-left:auto;} }
     </style>
 </head>
@@ -358,17 +360,18 @@
     <header>
         <div class="container navbar">
             <!-- 左侧Logo图片 -->
-            <a href="../index.html"><img src="../logo.png" alt="ISC Logo" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <a href="../index.html"><img src="../image/minecraft_logo.svg" alt="Minecraft" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             <!-- 中间导航菜单 -->
             <div class="nav-container">
                 <ul class="nav-links">
-                    <li><a href="#home">首页</a></li>
-                    <li><a href="#how-login">如何加入服务器</a></li>
-                    <li><a href="#public-mod">公共模组</a></l>
+                    <li><a href="#home">游戏</a></li>
+                    <li><a href="#how-develop">服务器介绍</a></li>
+                    <li><a href="#public-resources">公共资源</a></li>
+                    <li><a href="#minecraft">支持</a></li>
                 </ul>
             </div>
             <!-- 右侧登录按钮：改为<a>标签，跳转至login.html，保留原按钮样式 -->
-            <a href="page/login.html" class="login-btn">登录</a>
+            <a href="login.html" class="login-btn">加入服务器</a>
         </div>
     </header>
     <!-- 首页轮播区域（替代原英雄区） -->
