@@ -120,6 +120,12 @@
             object-fit: cover; /* 保持图片比例，铺满容器（裁剪超出部分） */
             /* 如果不想裁剪，可用 object-fit: contain; 但会留空白 */
         }
+        .carousel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
         /* 切换按钮样式 */
         .carousel-btn {
             position: absolute;
@@ -364,7 +370,9 @@
         <div class="carousel-wrapper" id="carouselWrapper">
             <!-- 轮播图片项 -->
             <div class="carousel-item">
-                <img src="https://picsum.photos/1920/1080?random=1" alt="轮播图1">
+                <video autoplay muted loop playsinline preload="metadata" poster="../image/background.jpg" aria-label="Minecraft 视频封面">
+                    <source src="https://raw.githubusercontent.com/liuzishuo702-sys/liu-org-Website/98349f0/image/vidio/minecraft-ad-vidio.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="carousel-item">
                 <img src="https://picsum.photos/1920/1080?random=2" alt="轮播图2">
