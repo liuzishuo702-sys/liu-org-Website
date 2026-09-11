@@ -350,9 +350,10 @@
         }
         /* 首页统一导航覆盖 */
         header { background:#211f1e; backdrop-filter:none; border-bottom:1px solid rgba(255,255,255,.08); }
+        header .navbar { max-width:none; width:100%; padding:14px 28px; }
         .mobile-menu-btn { display:none; }
         .nav-links a { padding:8px 12px; border:0; border-radius:0; }
-        @media(max-width:768px){ body{padding-top:58px;padding-bottom:64px;} header .navbar{position:relative;height:58px;flex-wrap:nowrap;} header .logo-img{position:absolute;left:50%;transform:translateX(-50%);height:32px;} header .nav-container{display:none;} header.menu-open .nav-container{display:block;position:absolute;top:58px;left:0;right:0;padding:10px 16px;background:rgba(8,9,18,.96);} header.menu-open .nav-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;} .mobile-menu-btn{display:inline-flex;position:absolute;left:16px;} .login-btn{margin-left:auto;} }
+        @media(max-width:768px){ body{padding-top:58px;padding-bottom:64px;} header .navbar{position:relative;height:58px;flex-wrap:nowrap;padding:8px 16px;} header .logo-img{position:absolute;left:50%;transform:translateX(-50%);height:32px;} header .nav-container{display:none;} header.menu-open .nav-container{display:block;position:absolute;top:58px;left:0;right:0;padding:10px 16px;background:rgba(8,9,18,.96);} header.menu-open .nav-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;} .mobile-menu-btn{display:inline-flex;position:absolute;left:16px;} .login-btn{margin-left:auto;} }
     </style>
 </head>
 <body>
@@ -360,7 +361,7 @@
     <header>
         <div class="container navbar">
             <!-- 左侧Logo图片 -->
-            <a href="../index.html"><img src="../image/minecraft_logo.svg" alt="Minecraft" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <a href="../index.html"><img src="../logo.png" alt="Orange Minecraft" class="logo-img"></a><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             <!-- 中间导航菜单 -->
             <div class="nav-container">
                 <ul class="nav-links">
