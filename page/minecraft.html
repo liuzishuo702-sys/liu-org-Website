@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orange Minecraft</title>
     <style>
-        @font-face {
-            font-family: 'MinecraftCustom';
-            src: url('../assets/minecraft.ttf') format('truetype');
-            font-display: swap;
-        }
         /* 全局重置与基础样式 - 主题色改为黑色系 */
         * {
             margin: 0;
@@ -160,26 +155,29 @@
         /* 新增：轮播标题文字 欢迎来到我们的网站 */
         .carousel-title {
             position: absolute;
-            left: 50%;
-            top: 40%;
-            transform: translate(-50%, -50%);
+            left: clamp(24px, 8vw, 120px);
+            bottom: 23%;
+            transform: none;
             z-index: 15;
-            font-size: 6rem;
-            font-family: 'MinecraftCustom', Impact, "Arial Black", "Microsoft YaHei", sans-serif;
+            max-width: min(850px, 82vw);
+            font-size: clamp(2.8rem, 6vw, 6rem);
+            font-family: Impact, "Arial Black", "Microsoft YaHei", sans-serif;
             font-weight: 900;
-            letter-spacing: 0.02em;
-            color: #000;
-            -webkit-text-stroke: 1.5px #000;
-            text-shadow: 0 4px 0 rgba(255,255,255,0.35), 0 9px 14px rgba(0,0,0,0.45);
-            white-space: nowrap;
+            letter-spacing: 0.01em;
+            line-height: 0.95;
+            color: #171717;
+            -webkit-text-stroke: 2px #eee;
+            text-shadow: 0 4px 0 #555, 0 8px 0 #171717, 0 14px 20px rgba(0,0,0,0.6);
+            white-space: normal;
+            text-align: left;
         }
 
         /* 新增：轮播中间的开始探索按钮 */
         .explore-btn {
             position: absolute;
-            left: 50%;
-            top: 65%;
-            transform: translate(-50%, -50%);
+            left: clamp(24px, 8vw, 120px);
+            bottom: 12%;
+            transform: none;
             z-index: 15;
             padding: 14px 36px;
             font-size: 1.1rem;
@@ -298,8 +296,8 @@
                 font-size: 1rem;
             }
             .carousel-title {
-                font-size: 2.2rem;
-                top: 54%;
+                font-size: clamp(2.2rem, 7vw, 4rem);
+                bottom: 25%;
             }
         }
         @media (max-width: 768px) {
@@ -340,11 +338,12 @@
             .explore-btn {
                 padding: 10px 24px;
                 font-size: 0.95rem;
-                top: 70%;
+                left: 24px;
+                bottom: 10%;
             }
             .carousel-title {
-                font-size: 1.6rem;
-                top: 58%;
+                font-size: clamp(2rem, 10vw, 3rem);
+                bottom: 22%;
             }
         }
         /* 首页统一导航覆盖 */
